@@ -1,0 +1,23 @@
+.container{
+  position: relative;
+  left:-2%;
+}
+
+.input-group-addon {
+    color: #fff;
+    background-color: #337ab7;
+ }
+ 
+ .form-control, .input-group-addon {
+    border-radius: 0px;
+    z-index: 2;
+ }
+
+ label{
+   text-align: left !important;
+ }
+
+ .glyphicon{
+   position: relative;
+   left:-7px;
+ }

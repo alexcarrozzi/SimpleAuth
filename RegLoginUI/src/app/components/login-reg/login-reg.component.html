@@ -71,37 +71,53 @@
                                 <p>Error:</p>
                                 <span></span>
                             </div>
+                            <fieldset formGroupName="name">
+                              <div class="form-group"
+                                    [ngClass]="{
+                                    'has-danger': firstName.invalid && (firstName.dirty || firstName.touched),
+                                    'has-success': firstName.valid && (firstName.dirty || firstName.touched)
+                              }">
+                                  <label for="firstName" class="col-md-4 control-label">First Name</label>
+                                  <div class="col-md-8">
+                                      <input type="text" class="form-control input-sm" placeholder="First Name" 
+                                      formControlName="firstName"
+                                      required>
+                                  </div>
+                                  <div class="form-control-feedback firstNameFeedback"
+                                      *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+                                    <p *ngIf="firstName.errors.required">First Name is required</p>
+                                  </div>
+                              </div>
 
-                            <div class="form-group"
-                                  [ngClass]="{
-                                  'has-danger': firstName.invalid && (firstName.dirty || firstName.touched),
-                                  'has-success': firstName.valid && (firstName.dirty || firstName.touched)
-                            }">
-                                <label for="firstName" class="col-md-4 control-label">First Name</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control input-sm" placeholder="First Name" 
-                                    formControlName="firstName"
-                                    required>
-                                </div>
-                                <div class="form-control-feedback"
-                                     *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
-                                  <p *ngIf="firstName.errors.required">First Name is required</p>
-                                </div>
-                            </div>
-
+                              <div class="form-group" [ngClass]="{
+                                'has-danger': lastName.invalid && (lastName.dirty || lastName.touched),
+                                'has-success': lastName.valid && (lastName.dirty || lastName.touched)
+                              }">
+                                  <label for="lastName" class="col-md-4 control-label">Last Name</label>
+                                  <div class="col-md-8">
+                                      <input type="text" class="form-control input-sm" placeholder="Last Name"
+                                      formControlName="lastName"
+                                      required>
+                                  </div>
+                                  <div class="form-control-feedback lastNameFeedback"
+                                      *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+                                    <p *ngIf="lastName.errors.required">Last Name is required</p>
+                                  </div>
+                              </div>
+                            </fieldset>
                             <div class="form-group" [ngClass]="{
-                              'has-danger': lastName.invalid && (lastName.dirty || lastName.touched),
-                              'has-success': lastName.valid && (lastName.dirty || lastName.touched)
+                              'has-danger': userName.invalid && (userName.dirty || userName.touched),
+                              'has-success': userName.valid && (userName.dirty || userName.touched)
                             }">
-                                <label for="lastName" class="col-md-4 control-label">Last Name</label>
+                                <label for="userName" class="col-md-4 control-label">User Name</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control input-sm" placeholder="Last Name"
-                                    formControlName="lastName"
+                                    formControlName="userName"
                                     required>
                                 </div>
-                                <div class="form-control-feedback"
-                                     *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
-                                  <p *ngIf="lastName.errors.required">Last Name is required</p>
+                                <div class="form-control-feedback userNameFeedback"
+                                     *ngIf="userName.errors && (userName.dirty || userName.touched)">
+                                  <p *ngIf="userName.errors.required">User Name is required</p>
                                 </div>
                             </div>
 
@@ -116,11 +132,9 @@
                                     formControlName="password"
                                     required>
                                 </div>
-                                <div class="form-control-feedback"
+                                <div class="form-control-feedback passFeedback"
                                     *ngIf="password.errors && (password.dirty || password.touched)">
-                                  <p *ngIf="password.errors.required">Password is required</p>
-                                  <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
-                                  <p *ngIf="password.errors.pattern">Password must contain at least 1 numerical digit</p>
+                                  <div *ngIf="password.errors.minlength||password.errors.required||password.errors.pattern">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </div>
                               </div>
                             </div>
 
@@ -135,9 +149,8 @@
                                     formControlName="email"
                                     required>
                                 </div>
-                                <div class="form-control-feedback"
+                                <div class="form-control-feedback emailFeedback"
                                      *ngIf="email.errors && (email.dirty || email.touched)">
-                                  <p *ngIf="email.errors.required">Email is required</p>
                                   <p *ngIf="password.errors.pattern">Must be a valid email address</p>
                                 </div>
                             </div>
@@ -145,7 +158,7 @@
                             <div class="form-group">
                                 <!-- Button -->                                        
                                 <div class="col-md-offset-4 col-md-8">
-                                    <button id="btn-signup" type="button" class="btn btn-primary btn-sm"> Register <i class="fa fa-user-plus"></i></button>
+                                    <button (click)="register()" id="btn-signup" type="button" class="btn btn-primary btn-sm"> Register <i class="fa fa-user-plus"></i></button>
                                     <!--<span style="margin-left:8px;">or</span>  -->
                                 </div>
                             </div>

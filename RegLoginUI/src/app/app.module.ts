@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginRegComponent } from './components/login-reg/login-reg.component';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { LoginService } from './services/login.service';
 
 
 @NgModule({

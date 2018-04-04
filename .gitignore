@@ -1,3 +1,5 @@
 /.metadata/
 /.recommenders/
-RemoteSystemTempFiles
+/RemoteSystemsTempFiles/
+*/.settings/*
+*/.target/*

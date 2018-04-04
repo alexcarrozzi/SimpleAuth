@@ -1,18 +1,20 @@
 import {  NgModule,  Component,  Pipe,  OnInit} from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import {  ReactiveFormsModule,  FormsModule,  FormGroup,  FormControl,  Validators,  FormBuilder} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {Md5} from 'ts-md5/dist/md5';
-import {LoginService} from '../../services/login.service';
+import { AlertService, } from '../../services/alert.service';
+import {AuthenticationService} from '../../services/authentication.service';
 declare var $: any;
 
 
 @Component({
-  selector: 'app-login-reg',
-  templateUrl: './login-reg.component.html',
-  styleUrls: ['./login-reg.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class LoginRegComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   loginForm:FormGroup;
   registerForm:FormGroup;
@@ -26,13 +28,24 @@ export class LoginRegComponent implements OnInit {
   userEmailLogin:FormControl;
   passLogin:FormControl;
 
-  constructor(private loginService:LoginService){
+  loading = false;
+  returnUrl: string;
+
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService){
 
   }
 
   ngOnInit() { 
     this.createFormControls();
     this.createForms();  
+    // reset login status
+    this.authenticationService.logout();
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   createForms = () => {
@@ -54,6 +67,7 @@ export class LoginRegComponent implements OnInit {
     });
   }
 
+  /*
   register = () => {
     let firstField = this.firstName.value;
     let lastField = this.lastName.value;
@@ -66,21 +80,38 @@ export class LoginRegComponent implements OnInit {
       console.log(response);
     });
   }
+*/
 
   login = () => {
     let firstEmailField = this.userEmailLogin.value;
     let passField = this.passLogin.value;
 
+    /*
     this.loginService.login(firstEmailField, passField)
     .subscribe (response => {
-      console.log(response);
-    });
+       console.log(response);
+       
+    });*/
+    this.loading = true;
+    this.authenticationService.login(firstEmailField, passField)
+      .subscribe(
+          data => {
+              this.router.navigate([this.returnUrl]);
+          },
+          error => {
+              this.alertService.error(error);
+              this.loading = false;
+       });
+    
   }
-
+  
   createFormControls = () => {
     this.firstName = new FormControl('', Validators.required);
     this.lastName = new FormControl('', Validators.required);
     this.userName = new FormControl('', Validators.required);
+
+    this.userEmailLogin = new FormControl('',Validators.required);
+    this.passLogin = new FormControl('',Validators.required);
 
     this.email = new FormControl('', [ 
       Validators.required,

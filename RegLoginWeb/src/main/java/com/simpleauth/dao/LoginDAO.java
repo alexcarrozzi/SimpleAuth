@@ -1,7 +1,7 @@
 package com.simpleauth.dao;
 
-import com.simpleauth.models.Credential;
+import com.simpleauth.models.Token;
 
 public interface LoginDAO {
-	public Credential login(String cred, String password, String credType);
+	public Token login(String cred, String password, String credType);
 }

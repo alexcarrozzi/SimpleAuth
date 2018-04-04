@@ -1,7 +1,7 @@
 package com.simpleauth.services;
 
-import com.simpleauth.models.Credential;
+import com.simpleauth.models.Token;
 
 public interface LoginService {
-	public Credential login(String cred, String password, String credType);
+	public Token login(String cred, String password, String credType);
 }

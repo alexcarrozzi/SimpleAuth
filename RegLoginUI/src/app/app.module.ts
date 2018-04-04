@@ -1,24 +1,50 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthGuard } from './guards/auth.gaurd';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+
+import { AlertService } from './services/alert.service';
+import { AuthenticationService } from './services/authentication.service';
+import { UserService } from './services/user.service'
 
 import { AppComponent } from './app.component';
-import { LoginRegComponent } from './components/login-reg/login-reg.component';
+import { LoginComponent } from './components/login/login.component';
+import { AlertComponent } from './directives/alert/alert.component';
+import { HomeComponent } from './components/home/home.component';
+import { RegisterComponent } from './components/register/register.component';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { LoginService } from './services/login.service';
+import { routing } from './app.routing';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginRegComponent    
+    AlertComponent,
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent 
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    FormsModule
+    HttpClientModule,
+    FormsModule,
+    routing
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AlertService,
+    AuthenticationService,
+    UserService,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: JwtInterceptor,
+        multi: true
+    }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

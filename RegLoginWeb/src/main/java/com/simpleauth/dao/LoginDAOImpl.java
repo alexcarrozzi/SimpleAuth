@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.simpleauth.models.Credential;
+import com.simpleauth.models.Token;
 
 @Repository
 public class LoginDAOImpl implements LoginDAO {
@@ -25,38 +25,46 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 
 	@Override
-	public Credential login(String cred, String password, String credType) {
-		Credential retCred = new Credential();
-	    boolean isValid = false;
+	public Token login(String cred, String password, String credType) {
+		Token retCred = new Token();
 	    
 		if(credType.equals("email")) {
-			String sql = "SELECT password FROM USERS WHERE EMAIL = :email";
+			String sql = "SELECT username, first_name, last_name, email, password "+
+							"FROM USERS WHERE EMAIL = :email "+
+							"AND is_enabled=1;";
 			
 			MapSqlParameterSource params = new MapSqlParameterSource();
 		    params.addValue("email", cred);
 		    
-		    @SuppressWarnings("unchecked")
-			String sqlPass  = (String) this.jdbcTemplate.query(sql,new RowMapper() {
-				  public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-				        return rs.getString(1);
+			retCred = this.jdbcTemplate.query(sql,new RowMapper<Token>() {
+				public Token mapRow(ResultSet rs, int rowNum) throws SQLException {
+					  Token retTok = new Token();
+				      retTok.setUsername(rs.getString("username"));
+				      retTok.setFirstName(rs.getString("first_name"));
+				      retTok.setLastName(rs.getString("last_name"));
+				      retTok.setEmail(rs.getString("email"));
+				      return retTok;
 				  }
-	    	}).get(0);
-		    isValid = sqlPass.equals(password);		    
+	    	}).get(0);	    
 		}else if(credType.equals("username")) {
-			String sql = "SELECT password FROM USERS WHERE USERNAME = :username";
+			String sql = "SELECT username, first_name, last_name, email, password "+
+					"FROM USERS WHERE username = :username "+
+					"AND is_enabled=1;";
 			
 			MapSqlParameterSource params = new MapSqlParameterSource();
 		    params.addValue("username", cred);
 		    
-		    @SuppressWarnings("unchecked")
-			String sqlPass  = (String) this.jdbcTemplate.query(sql,new RowMapper() {
-				  public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-				        return rs.getString(1);
+			 retCred = this.jdbcTemplate.query(sql,new RowMapper<Token>() {
+				  public Token mapRow(ResultSet rs, int rowNum) throws SQLException {
+					  Token retTok = new Token();
+				      retTok.setUsername(rs.getString("username"));
+				      retTok.setFirstName(rs.getString("first_name"));
+				      retTok.setLastName(rs.getString("last_name"));
+				      retTok.setEmail(rs.getString("email"));
+				      return retTok;
 				  }
 	    	}).get(0);		    
-		    isValid = sqlPass.equals(password);
 		}
-	    retCred.setLoggedIn(isValid);
 		return retCred;
 	}
 

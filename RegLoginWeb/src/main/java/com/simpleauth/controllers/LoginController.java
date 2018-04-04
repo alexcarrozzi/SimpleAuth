@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.simpleauth.models.Credential;
+import com.simpleauth.models.Token;
 import com.simpleauth.services.LoginServiceImpl;
 import com.simpleauth.web.LoginRequest;
 import com.simpleauth.web.RestResponseWrapper;
@@ -19,13 +19,13 @@ public class LoginController {
 	
 	@ResponseBody
 	@RequestMapping(method=RequestMethod.POST, value="/login")
-	public RestResponseWrapper<Credential> login(@RequestBody LoginRequest request){
-		RestResponseWrapper<Credential> response = new RestResponseWrapper<Credential>();		
+	public RestResponseWrapper<Token> login(@RequestBody LoginRequest request){
+		RestResponseWrapper<Token> response = new RestResponseWrapper<Token>();		
 
         System.out.println("Received request for get routes");
      
         try{
-        	Credential myCredential = loginService.login(request.getCred(), request.getPassword(), request.getCredType());
+        	Token myCredential = loginService.login(request.getCred(), request.getPassword(), request.getCredType());
             response.setData(myCredential);
         }catch(Exception e){
             response.setErrMsg(e.getMessage());

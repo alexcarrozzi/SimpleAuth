@@ -15,15 +15,7 @@ declare var $: any;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   loginForm:FormGroup;
-  registerForm:FormGroup;
-
-  firstName: FormControl;
-  lastName: FormControl;
-  userName: FormControl;
-  email: FormControl;
-  password: FormControl;
 
   userEmailLogin:FormControl;
   passLogin:FormControl;
@@ -54,44 +46,12 @@ export class LoginComponent implements OnInit {
       password: this.passLogin,
       language: new FormControl() 
     });
-
-    this.registerForm = new FormGroup({
-      name: new FormGroup({
-        firstName: this.firstName,
-        lastName: this.lastName,
-      }),
-      userName: this.userName,
-      email: this.email,
-      password: this.password,
-      language: new FormControl() 
-    });
   }
-
-  /*
-  register = () => {
-    let firstField = this.firstName.value;
-    let lastField = this.lastName.value;
-    let userField = this.userName.value;
-    let passField = Md5.apply(this.password.value);
-    let emailField = this.email.value;
-
-    this.loginService.register(firstField, lastField, userField, passField, emailField)
-    .subscribe(response => {
-      console.log(response);
-    });
-  }
-*/
 
   login = () => {
     let firstEmailField = this.userEmailLogin.value;
     let passField = this.passLogin.value;
-
-    /*
-    this.loginService.login(firstEmailField, passField)
-    .subscribe (response => {
-       console.log(response);
-       
-    });*/
+    
     this.loading = true;
     this.authenticationService.login(firstEmailField, passField)
       .subscribe(
@@ -106,23 +66,7 @@ export class LoginComponent implements OnInit {
   }
   
   createFormControls = () => {
-    this.firstName = new FormControl('', Validators.required);
-    this.lastName = new FormControl('', Validators.required);
-    this.userName = new FormControl('', Validators.required);
-
     this.userEmailLogin = new FormControl('',Validators.required);
     this.passLogin = new FormControl('',Validators.required);
-
-    this.email = new FormControl('', [ 
-      Validators.required,
-    Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) 
-    ]);
-
-    //password must be 8 characters and contain 1 numerical number
-    this.password = new FormControl('', [
-      Validators.minLength(8), 
-      Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,20}/)
-    ]);
   }
 }

@@ -1,10 +1,10 @@
 <div class="container">
   <div class="container">   
-    <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-5 col-md-offset-4 col-sm-7 col-sm-offset-3">
+    <div id="signupbox" style="margin-top:50px" class="mainbox col-md-5 col-md-offset-4 col-sm-7 col-sm-offset-3">
       <div class="panel panel-primary">
           <div class="panel-heading">
               <div class="panel-title text-center">Sign Up <i class="fa fa-user-plus"></i></div>
-              <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
+              <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#">Sign In</a></div>
           </div>  
           <div class="panel-body" >
               <form *ngIf="registerForm" [formGroup]="registerForm" id="registerForm" class="form-horizontal" role="form">

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 import { AuthGuard } from './guards/auth.gaurd';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
@@ -31,6 +32,7 @@ import { routing } from './app.routing';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HttpModule,
     FormsModule,
     routing
   ],
